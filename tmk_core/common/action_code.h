@@ -29,15 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 000r|0000|0000 0001    Transparent code
  * 000r|0000| keycode     Key
  * 000r|mods|0000 0000    Modifiers
- * 000r|mods| keycode     Modifiers+key(Modified key)
+ * 000r|mods| keycode     Modifiers+Key(Modified key)
  *   r: Left/Right flag(Left:0, Right:1)
  *
  * ACT_MODS_TAP(001r):
- * 001r|mods|0000 0000    Modifiers with OneShot[TAP]
- * 001r|mods|0000 0001    Modifiers with tap toggle[TAP]
- * 001r|mods|0000 00xx    (reserved)            (0x02-03)
- * 001r|mods| keycode     Modifiers with tap key(0x04-A4, E0-E7)[TAP]
- *                        (reserved)            (0xA5-DF, E8-FF)
+ * 001r|mods|0000 0000    Modifiers with OneShot
+ * 001r|mods|0000 0001    Modifiers with tap toggle
+ * 001r|mods|0000 00xx    (reserved)
+ * 001r|mods| keycode     Modifiers with Tap Key(Dual role)
  *
  *
  * Other Keys(01xx)
@@ -71,15 +70,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 1001|oopp|BBBB BBBB   8-bit Bitwise Operation???
  *
  * ACT_LAYER_TAP(101x):
- * 101E|LLLL| keycode    On/Off with tap key    (0x04-A4, E0-E7)[TAP]
- * 101E|LLLL|110r mods   On/Off with modifiers  (0xC0-DF)[NOT TAP]
- *                       r: Left/Right flag(Left:0, Right:1)
- *                       (reserved)             (0xA5-BF, E8-EF)
+ * 101E|LLLL| keycode    On/Off with tap key    (0x00-DF)[TAP]
+ * 101E|LLLL|1110 mods   On/Off with modifiers  (0xE0-EF)[NOT TAP]
  * 101E|LLLL|1111 0000   Invert with tap toggle (0xF0)   [TAP]
  * 101E|LLLL|1111 0001   On/Off                 (0xF1)   [NOT TAP]
  * 101E|LLLL|1111 0010   Off/On                 (0xF2)   [NOT TAP]
  * 101E|LLLL|1111 0011   Set/Clear              (0xF3)   [NOT TAP]
- * 101E|LLLL|1111 xxxx   (reserved)             (0xF4-FF)
+ * 101E|LLLL|1111 xxxx   Reserved               (0xF4-FF)
  *   ELLLL: layer 0-31(E: extra bit for layer 16-31)
  *
  *
@@ -184,9 +181,9 @@ typedef union {
 
 
 /* action utility */
-#define ACTION_NO                       { .code = 0 }
-#define ACTION_TRANSPARENT              { .code = 1 }
-#define ACTION(kind, param)             { .code = ((kind)<<12 | (param)) }
+#define ACTION_NO                       0
+#define ACTION_TRANSPARENT              1
+#define ACTION(kind, param)             ((kind)<<12 | (param))
 
 
 /*
@@ -270,7 +267,7 @@ enum layer_pram_tap_op {
 #define ACTION_LAYER_ON_OFF(layer)                  ACTION_LAYER_TAP((layer), OP_ON_OFF)
 #define ACTION_LAYER_OFF_ON(layer)                  ACTION_LAYER_TAP((layer), OP_OFF_ON)
 #define ACTION_LAYER_SET_CLEAR(layer)               ACTION_LAYER_TAP((layer), OP_SET_CLEAR)
-#define ACTION_LAYER_MODS(layer, mods)              ACTION_LAYER_TAP((layer), 0xc0 | ((mods)&0x1f))
+#define ACTION_LAYER_MODS(layer, mods)              ACTION_LAYER_TAP((layer), 0xe0 | ((mods)&0x0f))
 /* With Tapping */
 #define ACTION_LAYER_TAP_KEY(layer, key)            ACTION_LAYER_TAP((layer), (key))
 #define ACTION_LAYER_TAP_TOGGLE(layer)              ACTION_LAYER_TAP((layer), OP_TAP_TOGGLE)
