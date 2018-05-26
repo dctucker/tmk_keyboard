@@ -47,8 +47,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TRANSPORT_PLAY_PAUSE    0x00CD
 /* application launch */
 #define APPLAUNCH_CC_CONFIG     0x0183
-#define APPLAUNCH_EMAIL         0x018A
-#define APPLAUNCH_CALCULATOR    0x0192
+
+/* #define APPLAUNCH_EMAIL         0x018A */
+#define APPLAUNCH_EMAIL         0x0070
+/* #define APPLAUNCH_CALCULATOR    0x0192 */
+#define APPLAUNCH_CALCULATOR    0x006F
+
 #define APPLAUNCH_LOCAL_BROWSER 0x0194
 /* application control */
 #define APPCONTROL_SEARCH       0x0221

@@ -183,21 +183,13 @@ static bool command_common(uint8_t code)
 #ifdef KEYBOARD_LOCK_ENABLE
     static host_driver_t *host_driver = 0;
 #endif
-#ifdef SLEEP_LED_ENABLE
-    static bool sleep_led_test = false;
-#endif
     switch (code) {
 #ifdef SLEEP_LED_ENABLE
         case KC_Z:
             // test breathing sleep LED
             print("Sleep LED test\n");
-            if (sleep_led_test) {
-                sleep_led_disable();
-                led_set(host_keyboard_leds());
-            } else {
-                sleep_led_enable();
-            }
-            sleep_led_test = !sleep_led_test;
+            sleep_led_toggle();
+            led_set(host_keyboard_leds());
             break;
 #endif
 #ifdef BOOTMAGIC_ENABLE
